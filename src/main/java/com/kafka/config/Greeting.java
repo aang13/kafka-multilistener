@@ -23,5 +23,6 @@ public class Greeting {
         this.message = message;
     }
     
+    public Greeting(){}
     
 }

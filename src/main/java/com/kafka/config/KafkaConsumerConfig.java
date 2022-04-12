@@ -23,37 +23,38 @@ public class KafkaConsumerConfig {
     public Map<String, Object> consumerConfig(){
         HashMap<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(JsonSerializer.TYPE_MAPPINGS,"greeting:com.kafka.config.Greeting");
+//        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
+//        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+//        props.put(JsonDeserializer.TYPE_MAPPINGS,"greeting:com.kafka.config.Greeting");
         return props;
     }
 
     @Bean
     public ConsumerFactory<String, Object> consumerFactory(){
-        return new DefaultKafkaConsumerFactory<>(consumerConfig(), new StringDeserializer(), new JsonDeserializer());
+        return new DefaultKafkaConsumerFactory<>(consumerConfig());
     }
 
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Object>> factory(ConsumerFactory<String, Object> consumerFactory){
         ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
+        factory.setMessageConverter(converter());
 
         return factory;
     }
     
-//    @Bean
-//    public RecordMessageConverter converter() {
-//        StringJsonMessageConverter converter = new StringJsonMessageConverter();
-//        DefaultJackson2JavaTypeMapper typeMapper = new DefaultJackson2JavaTypeMapper();
-//        typeMapper.setTypePrecedence(Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID);
-//        typeMapper.addTrustedPackages("com.kafka.config");
-//        Map<String, Class<?>> mappings = new HashMap<>();
-//        mappings.put("greeting", Greeting.class);
-////        mappings.put("bar", Bar2.class);
-//        typeMapper.setIdClassMapping(mappings);
-//        converter.setTypeMapper(typeMapper);
-//        return converter;
-//    }
+    @Bean
+    public RecordMessageConverter converter() {
+        StringJsonMessageConverter converter = new StringJsonMessageConverter();
+        DefaultJackson2JavaTypeMapper typeMapper = new DefaultJackson2JavaTypeMapper();
+        typeMapper.setTypePrecedence(Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID);
+        typeMapper.addTrustedPackages("com.kafka.config");
+        Map<String, Class<?>> mappings = new HashMap<>();
+        mappings.put("greeting", Greeting.class);
+        mappings.put("people", People.class);
+        typeMapper.setIdClassMapping(mappings);
+        converter.setTypeMapper(typeMapper);
+        return converter;
+    }
     
 }
