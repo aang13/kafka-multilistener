@@ -1,7 +1,6 @@
 package com.kafka.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.kafka.config.*;
@@ -9,7 +8,6 @@ import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.support.converter.*;
 import org.springframework.kafka.support.mapping.*;
-import org.springframework.kafka.support.serializer.*;
 
 import java.util.*;
 

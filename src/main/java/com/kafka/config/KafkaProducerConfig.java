@@ -5,7 +5,6 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.kafka.core.*;
-import org.springframework.kafka.retrytopic.DestinationTopic;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.*;

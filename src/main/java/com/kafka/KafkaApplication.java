@@ -22,8 +22,6 @@ public class KafkaApplication {
 		return args -> {
 			kafkaTemplate.send("greeting", new Greeting("hi moinul"));
 			kafkaTemplate.send("people", new People(29,"anton"));
-//			kafkaTemplate.send(new GenericMessage<>(new Greeting("hi moinul"),
-//					Collections.singletonMap(KafkaHeaders.TOPIC, "greeting")));
 		};
 	}
 	
